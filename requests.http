@@ -1,0 +1,18 @@
+@local = http://localhost:5003
+@cloud = https://app-clo25-rbac-name.azurewebsites.net
+
+
+### Local root - is the app running at all
+GET {{local}}/
+
+### Local secret check - Locally there is no Key Vault reference, so this answers "present": false
+GET {{local}}/secret-check
+
+
+### Cloud root - is the app running at all
+GET {{cloud}}/
+
+### Cloud secret check - did the secret arrive from Key Vault
+### Expected: "present": true and "unresolved": false.
+### "unresolved": true means App Service passed the reference string through instead.
+GET {{cloud}}/secret-check
